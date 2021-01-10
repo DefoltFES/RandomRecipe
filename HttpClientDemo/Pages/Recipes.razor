@@ -1,0 +1,100 @@
+﻿@page "/recipe"
+
+@inject IHttpClientFactory _clientFactory
+
+<link rel="stylesheet" href="css/style.css">
+@if (string.IsNullOrWhiteSpace(errorString) == false)
+{
+    <div class="h2">@errorString</div>
+}
+else if (recipe is null)
+{
+    <div class="h4">Loading...</div>
+}
+else
+{
+    <div>
+
+        <div  class="container">
+            <h2 style="">@recipe.meals[0].strMeal</h2>
+            <div class="row">
+                <div class="col-12">
+                    <img style="" src="@recipe.meals[0].strMealThumb" alt="@recipe.meals[0].strMeal">
+                </div>
+            </div>
+        </div>
+
+        <div class="receipe-content-area" style="margin-bottom: 100px">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-8">
+                        <div class="receipe-headline my-5">
+                            <div class="receipe-duration">
+                                <h6>@recipe.meals[0].strArea</h6>
+                                <h6>@recipe.meals[0].strCategory</h6>
+                                <h6>@recipe.meals[0].strTags</h6>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <h4>Instructions</h4>
+                            <div class="single-preparation-step d-flex">
+                                <p> @recipe.meals[0].strInstructions </p>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="ingredients">
+                                <h4>Ingredients</h4>
+                                <h6 style="">@recipe.meals[0].strIngredient1 @recipe.meals[0].strMeasure1</h6>
+                                <h6>@recipe.meals[0].strIngredient2 @recipe.meals[0].strMeasure2</h6>
+                                <h6>@recipe.meals[0].strIngredient3 @recipe.meals[0].strMeasure3</h6>
+                                <h6>@recipe.meals[0].strIngredient4 @recipe.meals[0].strMeasure4</h6>
+                                <h6>@recipe.meals[0].strIngredient5 @recipe.meals[0].strMeasure5</h6>
+                                <h6>@recipe.meals[0].strIngredient6 @recipe.meals[0].strMeasure6</h6>
+                                <h6>@recipe.meals[0].strIngredient7 @recipe.meals[0].strMeasure7</h6>
+                                <h6>@recipe.meals[0].strIngredient8 @recipe.meals[0].strMeasure8</h6>
+                                <h6>@recipe.meals[0].strIngredient9 @recipe.meals[0].strMeasure9</h6>
+                                <h6>@recipe.meals[0].strIngredient10 @recipe.meals[0].strMeasure10</h6>
+                                <h6>@recipe.meals[0].strIngredient11 @recipe.meals[0].strMeasure11</h6>
+                                <h6>@recipe.meals[0].strIngredient12 @recipe.meals[0].strMeasure12</h6>
+                                <h6>@recipe.meals[0].strIngredient13 @recipe.meals[0].strMeasure13</h6>
+                                <h6>@recipe.meals[0].strIngredient14 @recipe.meals[0].strMeasure14</h6>
+                                <h6>@recipe.meals[0].strIngredient15 @recipe.meals[0].strMeasure15</h6>
+                                <h6>@recipe.meals[0].strIngredient16 @recipe.meals[0].strMeasure16</h6>
+                                <h6>@recipe.meals[0].strIngredient17 @recipe.meals[0].strMeasure17</h6>
+                                <h6>@recipe.meals[0].strIngredient18 @recipe.meals[0].strMeasure18</h6>
+                                <h6>@recipe.meals[0].strIngredient19 @recipe.meals[0].strMeasure19</h6>
+                                <h6>@recipe.meals[0].strIngredient20 @recipe.meals[0].strMeasure20</h6>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    }
+
+        @code {
+            Recipe recipe;
+            string errorString;
+
+    protected override async Task OnInitializedAsync()
+        {
+
+            var client = _clientFactory.CreateClient();
+
+            try
+            {
+                recipe = await client.GetFromJsonAsync<Recipe>("https://www.themealdb.com/api/json/v1/1/random.php");
+                errorString = null;
+            }
+            catch (Exception ex)
+            {
+                errorString = $"There was an error getting our forecast: { ex.Message }";
+            }
+        }
+        }
